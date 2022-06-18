@@ -12,4 +12,4 @@ const porta = process.env.PORT || 3000;
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Executando a API, acesse em http://localhost:" + porta);
-})
+});
