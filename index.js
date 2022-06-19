@@ -5,11 +5,12 @@ require('dotenv').config();
 
 const app = express();
 
+app.use(express.json())
 app.use(cors());
 app.use(router);
 
-const porta = process.env.PORT || 3000;
+const porta = process.env.PORT || 3002;
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(porta, () => {
     console.log("Executando a API, acesse em http://localhost:" + porta);
 });

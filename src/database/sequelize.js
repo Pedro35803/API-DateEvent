@@ -1,8 +1,13 @@
 const { Sequelize } = require('sequelize');
+require('dotenv').config()
 
 const hostDoBD = process.env.DATABASE_URL;
 
 const sequelize = new Sequelize(hostDoBD, {
+    define: {
+        timestamps: true,
+        underscored: true,
+    },
     dialectOptions: {
         ssl: {
             rejectUnauthorized: false,

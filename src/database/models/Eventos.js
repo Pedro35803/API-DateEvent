@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
+const Dias = require('./Dias');
 
 const Eventos = sequelize.define("eventos", {
     id: {
@@ -11,13 +12,25 @@ const Eventos = sequelize.define("eventos", {
     diaDoAno: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        validate: {
+            min: 1,
+            max: 366
+        },
         references: {
-            model: 'Dias',
+            model: Dias,
             key: 'diaDoAno'
         }
     },
     evento: {
         type: DataTypes.STRING,
+        allowNull: false,
+    },
+    created_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+    updated_at: {
+        type: DataTypes.DATE,
         allowNull: false,
     }
 });
