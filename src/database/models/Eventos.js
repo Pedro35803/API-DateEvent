@@ -9,18 +9,6 @@ const Eventos = sequelize.define("eventos", {
         primaryKey: true,
         autoIncrement: true
     },
-    diaDoAno: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-            min: 1,
-            max: 366
-        },
-        references: {
-            model: Dias,
-            key: 'diaDoAno'
-        }
-    },
     evento: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -40,5 +28,11 @@ const init = async () => {
 }
 
 init();
+
+Dias.hasMany(Eventos, {
+    foreignKey: 'diaDoAno',
+    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE'
+});
 
 module.exports = Eventos;
