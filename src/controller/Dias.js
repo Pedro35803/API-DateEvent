@@ -1,8 +1,10 @@
-const Dias = require('../database/models/Dias');
+require('../database/models/Dias');
+const { QueryTypes } = require('sequelize');
+const sequelize = require('../database/sequelize');
 
 module.exports = {
-    async all(req, res, next) {
-        await Dias.findAll()
+    async getDias(req, res, next) {
+        await sequelize.query("SELECT * FROM dias", { type: QueryTypes.SELECT })
             .then((resultado) => res.json(resultado))
             .catch(next);
     }

@@ -1,8 +1,10 @@
-const Eventos = require('../database/models/Eventos');
+require('../database/models/Eventos');
+const { QueryTypes } = require('sequelize');
+const sequelize = require('../database/sequelize');
 
 module.exports = {
-    all(req, res, next) {
-        Eventos.findAll()
+    async getEventos(req, res, next) {
+        await sequelize.query("SELECT * FROM eventos", { type: QueryTypes.SELECT })
             .then((resultado) => res.json(resultado))
             .catch(next);
     }
