@@ -5,8 +5,13 @@ const DiasController = require('./controller/Dias');
 const EventosController = require('./controller/Eventos');
 
 router.get("/dias", DiasController.getDias);
-router.get("/dias:diaDoAno", DiasController.getDiaDoAno)
-router.get("/dias:dia:mes", DiasController.getDiaEspercifico)
+
+router.post("/dias/:key", DiasController.create);
+
+router.get("/dias/:diaDoAno", DiasController.getDiaDoAno);
+
+router.get("/dias/:dia/:mes", DiasController.getDiaEspercifico);
+
 router.get("/eventos", EventosController.getEventos);
 
 module.exports = router;
