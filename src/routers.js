@@ -10,7 +10,7 @@ router.post("/dias/:key", DiasController.create);
 
 router.get("/dias/:diaDoAno", DiasController.getDiaDoAno);
 
-router.get("/dias/:dia/:mes", DiasController.getDiaEspercifico);
+router.get("/dias/:dia/:mes", DiasController.getDiaDoMes);
 
 router.get("/eventos", EventosController.getEventos);
 
