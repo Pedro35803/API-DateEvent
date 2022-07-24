@@ -1,6 +1,4 @@
-require('../database/models/Dias');
-require('dotenv').config();
-
+const { keyAccepted, menssageDenied } = require("../keyController/keyAccepted");
 const Dias = require("../database/models/Dias");
 
 module.exports = {
@@ -36,24 +34,20 @@ module.exports = {
 
     async create(req, res, next) {
         const { diaDoAno, diaDoMes, mes } = req.body;
-        const chaveDada = req.params.key;
-        const chaveAdmin = process.env.KEY_ADM;
         
-        if (chaveDada == chaveAdmin) {
+        if (keyAccepted(req.params.key)) {
             await Dias.create({diaDoAno, diaDoMes, mes})
                 .then((resultado) => res.status(201).json(resultado))
                 .catch(next);
         } else {
-            res.status(403).send("Operação negada, você não tem acesso de administrador");
+            res.status(403).send(menssageDenied);
         }
     },
 
     async update(req, res, next) {
         const { diaDoAno, diaDoMes, mes } = req.body;
-        const chaveDada = req.params.key;
-        const chaveAdmin = process.env.KEY_ADM;
 
-        if (chaveDada == chaveAdmin) {
+        if (keyAccepted(req.params.key)) {
             await Dias.update(
                 {
                     diaDoMes: diaDoMes, 
@@ -65,16 +59,14 @@ module.exports = {
             ).then((resultado) => res.status(204).json(resultado))
             .catch(next);
         } else {
-            res.status(403).send("Operação negada, você não tem acesso de administrador");
+            res.status(403).send(menssageDenied);
         }
     },
 
     async destroy(req, res, next) {
         const { diaDoAno } = req.body;
-        const chaveDada = req.params.key;
-        const chaveAdmin = process.env.KEY_ADM;
 
-        if (chaveDada == chaveAdmin) {
+        if (keyAccepted(req.params.key)) {
             await Dias.destroy({
                 where: {
                     diaDoAno: diaDoAno
@@ -82,7 +74,8 @@ module.exports = {
             }).then((resultado) => res.status(204).json(resultado))
             .catch(next);
         } else {
-            res.status(403).send("Operação negada, você não tem acesso de administrador");
+            res.status(403).send(menssageDenied
+                );
         }
     }
 }
