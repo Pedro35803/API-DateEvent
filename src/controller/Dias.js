@@ -41,10 +41,46 @@ module.exports = {
         
         if (chaveDada == chaveAdmin) {
             await Dias.create({diaDoAno, diaDoMes, mes})
-                .then((resultado) => {
-                    res.status(201).json(resultado)
-                })
+                .then((resultado) => res.status(201).json(resultado))
                 .catch(next);
+        } else {
+            res.status(403).send("Operação negada, você não tem acesso de administrador");
+        }
+    },
+
+    async update(req, res, next) {
+        const { diaDoAno, diaDoMes, mes } = req.body;
+        const chaveDada = req.params.key;
+        const chaveAdmin = process.env.KEY_ADM;
+
+        if (chaveDada == chaveAdmin) {
+            await Dias.update(
+                {
+                    diaDoMes: diaDoMes, 
+                    mes: mes
+                },
+                {where: {
+                    diaDoAno: diaDoAno
+                }}
+            ).then((resultado) => res.status(204).json(resultado))
+            .catch(next);
+        } else {
+            res.status(403).send("Operação negada, você não tem acesso de administrador");
+        }
+    },
+
+    async destroy(req, res, next) {
+        const { diaDoAno } = req.body;
+        const chaveDada = req.params.key;
+        const chaveAdmin = process.env.KEY_ADM;
+
+        if (chaveDada == chaveAdmin) {
+            await Dias.destroy({
+                where: {
+                    diaDoAno: diaDoAno
+                }
+            }).then((resultado) => res.status(204).json(resultado))
+            .catch(next);
         } else {
             res.status(403).send("Operação negada, você não tem acesso de administrador");
         }
