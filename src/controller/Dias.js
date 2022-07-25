@@ -74,8 +74,7 @@ module.exports = {
             }).then((resultado) => res.status(204).json(resultado))
             .catch(next);
         } else {
-            res.status(403).send(menssageDenied
-                );
+            res.status(403).send(menssageDenied);
         }
     }
 }

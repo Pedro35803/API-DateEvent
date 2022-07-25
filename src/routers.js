@@ -10,6 +10,12 @@ router.route("/dias/:key")
     .put(DiasController.update)
     .delete(DiasController.destroy);
 
+router.route("/eventos/:key")
+    .get(EventosController.getEventos)
+    .post(EventosController.create)
+    .put(EventosController.update)
+    .delete(EventosController.destroy);
+
 router.get("/dias", DiasController.getDias);
 
 router.get("/dias/:diaDoAno", DiasController.getDiaDoAno);
@@ -17,5 +23,7 @@ router.get("/dias/:diaDoAno", DiasController.getDiaDoAno);
 router.get("/dias/:dia/:mes", DiasController.getDiaDoMes);
 
 router.get("/eventos", EventosController.getEventos);
+
+router.get("/eventos/:id", EventosController.getEventosId);
 
 module.exports = router;

@@ -11,19 +11,23 @@ const Eventos = sequelize.define("eventos", {
     },
     evento: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
+    },
+    diaDoAno: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 });
 
 const init = async () => {
-    await Eventos.sync();
+    await Eventos.sync({force: true});
 }
 
 init();
 
 Dias.hasMany(Eventos, {
     foreignKey: 'diaDoAno',
-    onDelete: 'RESTRICT',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 });
 

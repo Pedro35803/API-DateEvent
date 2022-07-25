@@ -5,7 +5,8 @@ const hostDoBD = process.env.DATABASE_URL;
 
 const sequelize = new Sequelize(hostDoBD, {
     define: {
-        underscored: true,
+        timestamps: true,
+        underscored: true
     },
     dialectOptions: {
         ssl: {
