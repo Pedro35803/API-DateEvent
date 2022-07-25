@@ -21,10 +21,10 @@ module.exports = {
     },
 
     async create(req, res, next) {
-        const { evento, diaDoAno } = req.body;
+        const { evento, tipo, diaDoAno } = req.body;
         
         if (keyAccepted(req.params.key)) {
-            await Eventos.create({evento, diaDoAno})
+            await Eventos.create({evento, tipo, diaDoAno})
                 .then((resultado) => res.status(201).json(resultado))
                 .catch(next);
         } else {
@@ -33,12 +33,13 @@ module.exports = {
     },
 
     async update(req, res, next) {
-        const { id, evento, diaDoAno } = req.body;
+        const { id, evento, tipo, diaDoAno } = req.body;
 
         if (keyAccepted(req.params.key)) {
             await Eventos.update(
                 {
                     evento: evento,
+                    tipo: tipo,
                     diaDoAno: diaDoAno
                 },
                 {where: {

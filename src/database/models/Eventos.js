@@ -13,6 +13,10 @@ const Eventos = sequelize.define("eventos", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    tipo: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     diaDoAno: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -20,7 +24,7 @@ const Eventos = sequelize.define("eventos", {
 });
 
 const init = async () => {
-    await Eventos.sync();
+    await Eventos.sync({force: true});
 }
 
 init();
