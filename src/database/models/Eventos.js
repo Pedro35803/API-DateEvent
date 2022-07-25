@@ -20,7 +20,7 @@ const Eventos = sequelize.define("eventos", {
 });
 
 const init = async () => {
-    await Eventos.sync({force: true});
+    await Eventos.sync();
 }
 
 init();

@@ -30,7 +30,7 @@ const Dias = sequelize.define("dias", {
 });
 
 const init = async () => {
-    await Dias.sync({force: true});
+    await Dias.sync();
 }
 
 init();
