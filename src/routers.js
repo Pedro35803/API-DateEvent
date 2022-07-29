@@ -3,6 +3,7 @@ const router = express.Router();
 
 const DiasController = require('./controller/Dias');
 const EventosController = require('./controller/Eventos');
+const APIController = require('./controller/Api');
 
 router.route("/api/dias/api_key/:key")
     .get(DiasController.getDias)
@@ -15,6 +16,8 @@ router.route("/api/eventos/api_key/:key")
     .post(EventosController.create)
     .put(EventosController.update)
     .delete(EventosController.destroy);
+
+router.get("/api/v1/feriados/2022", APIController.getFeriados)
 
 router.get("/api/dias", DiasController.getDias);
 

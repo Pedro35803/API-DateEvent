@@ -1,7 +1,9 @@
 const { keyAccepted, menssageDenied } = require("../keyController/keyAccepted");
 const Eventos = require('../database/models/Eventos');
+
 const sequelize = require('../database/sequelize');
-const { QueryTypes } = require('sequelize');
+const { QueryTypes, Sequelize } = require('sequelize');
+const { Op } = require("sequelize");
 
 module.exports = {
     async getEventos(req, res, next) {
