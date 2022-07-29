@@ -1,13 +1,9 @@
 const { keyAccepted, menssageDenied } = require("../keyController/keyAccepted");
 const Eventos = require('../database/models/Eventos');
 
-const sequelize = require('../database/sequelize');
-const { QueryTypes, Sequelize } = require('sequelize');
-const { Op } = require("sequelize");
-
 module.exports = {
     async getEventos(req, res, next) {
-        await sequelize.query("SELECT * FROM eventos", { type: QueryTypes.SELECT })
+        await Eventos.findAll()
             .then((resultado) => res.json(resultado))
             .catch(next);
     },
@@ -15,9 +11,10 @@ module.exports = {
     async getEventosId(req, res, next) {
         const idEnviado = req.params.id;
 
-        await sequelize.query("SELECT * FROM eventos WHERE id = ?", { 
-            type: QueryTypes.SELECT, 
-            replacements: [ idEnviado ]
+        await Eventos.findAll({
+            where: {
+                id: idEnviado
+            }
         }).then((resultado) => res.json(resultado))
         .catch(next);
     },
