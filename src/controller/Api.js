@@ -22,16 +22,26 @@ module.exports = {
 
         const idAleatorio = getRandomInt(1, quantEventos);
 
-        return await sequelize.query(`${selectDefault} where e.id = ${idAleatorio}`,{
+        await sequelize.query(`${selectDefault} where e.id = ${idAleatorio}`,{
             type: QueryTypes.SELECT
         }).then((resultado) => res.json(resultado))
         .catch(next);
     },
 
     async getDiaDoAno(req, res, next) {
-        const diaEnviado = req.params.dia;
+        const dia = req.params.dia;
 
-        return await sequelize.query(`${selectDefault} where d.dia_do_Ano = ${diaEnviado}`,{
+        await sequelize.query(`${selectDefault} where d.dia_do_Ano = ${dia}`,{
+            type: QueryTypes.SELECT
+        }).then((resultado) => res.json(resultado))
+        .catch(next);
+    },
+
+    async getDiaDoMes(req, res, next) {
+        const dia = req.params.dia;
+        const mes = req.params.mes;
+
+        await sequelize.query(`${selectDefault} where d.dia_do_mes = ${dia} and d.mes = ${mes}`,{
             type: QueryTypes.SELECT
         }).then((resultado) => res.json(resultado))
         .catch(next);

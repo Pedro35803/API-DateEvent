@@ -36,10 +36,16 @@ https://api-datasim.herokuapp.com/api/v1/feriados/2022
 https://api-datasim.herokuapp.com/api/v1/eventos/random
 ```
 
-* Evento pesquisado pelo dia do ano
+* Eventos pesquisado pelo dia do ano
 
 ```
-https://api-datasim.herokuapp.com/api/v1/eventos/diaDoAno/:dia
+https://api-datasim.herokuapp.com/api/v1/eventos/diaDoAno/{dia}
+```
+
+* Eventos pesquisado pelos dia e o mes
+
+```
+https://api-datasim.herokuapp.com/api/v1/eventos/dia/mes/{dia}/{mes}
 ```
 
 ---
