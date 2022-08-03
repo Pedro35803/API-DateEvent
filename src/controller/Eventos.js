@@ -8,17 +8,6 @@ module.exports = {
             .catch(next);
     },
 
-    async getEventosId(req, res, next) {
-        const idEnviado = req.params.id;
-
-        await Eventos.findAll({
-            where: {
-                id: idEnviado
-            }
-        }).then((resultado) => res.json(resultado))
-        .catch(next);
-    },
-
     async create(req, res, next) {
         const { evento, tipo, diaDoAno } = req.body;
         

@@ -8,30 +8,6 @@ module.exports = {
             .catch(next);
     },
 
-    async getDiaDoAno(req, res, next) {
-        const diaEnviado = req.params.diaDoAno;
-
-        await Dias.findOne({ 
-            where: { 
-                diaDoAno : diaEnviado
-            }
-        }).then((resultado) => res.json(resultado))
-        .catch(next);
-    },
-
-    async getDiaDoMes(req, res, next) {
-        const diaNumero = req.params.dia;
-        const mesNumero = req.params.mes;
-
-        await Dias.findOne({ 
-            where: { 
-                diaDoMes : diaNumero,
-                mes : mesNumero
-            }
-        }).then((resultado) => res.json(resultado))
-        .catch(next);
-    },
-
     async create(req, res, next) {
         const { diaDoAno, diaDoMes, mes } = req.body;
         

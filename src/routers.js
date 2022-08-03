@@ -23,16 +23,8 @@ router.get("/api/v1/eventos/random", APIController.getRandom)
 
 router.get("/api/v1/eventos/id/:id", APIController.getEventosId)
 
-router.get("/api/v1/eventos/diaDoAno/:dia", APIController.getDiaDoAno)
+router.get("/api/v1/eventos/diaDoAno/:dia", APIController.getEventosDiaDoAno)
 
-router.get("/api/v1/eventos/dia/mes/:dia/:mes", APIController.getDiaDoMes)
-
-router.get("/api/dias", DiasController.getDias);
-
-router.get("/api/dias/:diaDoAno", DiasController.getDiaDoAno);
-
-router.get("/api/eventos", EventosController.getEventos);
-
-router.get("/api/eventos/:id", EventosController.getEventosId);
+router.get("/api/v1/eventos/dia/mes/:dia/:mes", APIController.getEventosDiaDoMes)
 
 module.exports = router;

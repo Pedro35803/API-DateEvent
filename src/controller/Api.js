@@ -37,7 +37,7 @@ module.exports = {
         .catch(next);
     },
 
-    async getDiaDoAno(req, res, next) {
+    async getEventosDiaDoAno(req, res, next) {
         const dia = req.params.dia;
 
         await sequelize.query(`${selectDefault} where d.dia_do_Ano = ${dia}`,{
@@ -46,7 +46,7 @@ module.exports = {
         .catch(next);
     },
 
-    async getDiaDoMes(req, res, next) {
+    async getEventosDiaDoMes(req, res, next) {
         const dia = req.params.dia;
         const mes = req.params.mes;
 
