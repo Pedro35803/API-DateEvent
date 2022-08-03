@@ -28,6 +28,15 @@ module.exports = {
         .catch(next);
     },
 
+    async getEventosId(req, res, next) {
+        const id = req.params.id;
+
+        await sequelize.query(`${selectDefault} where e.id = ${id}`,{
+            type: QueryTypes.SELECT
+        }).then((resultado) => res.json(resultado))
+        .catch(next);
+    },
+
     async getDiaDoAno(req, res, next) {
         const dia = req.params.dia;
 
