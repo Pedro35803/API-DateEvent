@@ -26,5 +26,14 @@ module.exports = {
             type: QueryTypes.SELECT
         }).then((resultado) => res.json(resultado))
         .catch(next);
+    },
+
+    async getDiaDoAno(req, res, next) {
+        const diaEnviado = req.params.dia;
+
+        return await sequelize.query(`${selectDefault} where d.dia_do_Ano = ${diaEnviado}`,{
+            type: QueryTypes.SELECT
+        }).then((resultado) => res.json(resultado))
+        .catch(next);
     }
 }

@@ -36,6 +36,12 @@ https://api-datasim.herokuapp.com/api/v1/feriados/2022
 https://api-datasim.herokuapp.com/api/v1/eventos/random
 ```
 
+* Evento pesquisado pelo dia do ano
+
+```
+https://api-datasim.herokuapp.com/api/v1/eventos/diaDoAno/:dia
+```
+
 ---
 <a id="Licença"></a>
 # Licença

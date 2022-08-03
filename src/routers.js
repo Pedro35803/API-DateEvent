@@ -21,6 +21,8 @@ router.get("/api/v1/feriados/2022", APIController.getFeriados)
 
 router.get("/api/v1/eventos/random", APIController.getRandom)
 
+router.get("/api/v1/eventos/diaDoAno/:dia", APIController.getDiaDoAno)
+
 router.get("/api/dias", DiasController.getDias);
 
 router.get("/api/dias/:diaDoAno", DiasController.getDiaDoAno);
