@@ -17,10 +17,17 @@ module.exports = {
         .catch(next);
     },
 
-    async getRandom(req, res, next) {
-        const quantEventos = 600;
+    async getQuantEventos(req, res, next) {
+        await sequelize.query(`Select count(*) From eventos`,{
+            type: QueryTypes.SELECT
+        }).then((resultado) => {
+            req.quantEventos = resultado[0].count;
+            next();
+        }).catch(() => res.send("Ocorreu um error ao tentar acessar a quantidade de eventos"));
+    },
 
-        const idAleatorio = getRandomInt(1, quantEventos);
+    async getRandom(req, res, next) {
+        const idAleatorio = getRandomInt(1, req.quantEventos);
 
         await sequelize.query(`${selectDefault} where e.id = ${idAleatorio}`,{
             type: QueryTypes.SELECT
