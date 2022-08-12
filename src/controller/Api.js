@@ -17,6 +17,17 @@ module.exports = {
         .catch(next);
     },
 
+    async getEventosHoje(req, res, next) {
+        const data = new Date();
+        const dia = data.getDate();
+        const mes = data.getMonth() + 1;
+
+        await sequelize.query(`${selectDefault} where d.dia_do_mes = ${dia} and d.mes = ${mes}`, {
+            type: QueryTypes.SELECT
+        }).then((resultado) => res.json(resultado))
+        .catch(next);
+    },
+
     async getQuantEventos(req, res, next) {
         await sequelize.query(`Select count(*) From eventos`,{
             type: QueryTypes.SELECT

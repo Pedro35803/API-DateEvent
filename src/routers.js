@@ -21,14 +21,16 @@ router.route("/api/eventos/api_key/:key")
     .put(EventosController.update)
     .delete(EventosController.destroy);
 
-router.get("/api/v1/feriados/2022", APIController.getFeriados)
+router.get("/api/v1/feriados/2022", APIController.getFeriados);
 
-router.get("/api/v1/eventos/random", APIController.getQuantEventos, APIController.getRandom)
+router.get("/api/v1/eventos/hoje", APIController.getEventosHoje);
 
-router.get("/api/v1/eventos/id/:id", APIController.getEventosId)
+router.get("/api/v1/eventos/random", APIController.getQuantEventos, APIController.getRandom);
 
-router.get("/api/v1/eventos/diaDoAno/:dia", APIController.getEventosDiaDoAno)
+router.get("/api/v1/eventos/id/:id", APIController.getEventosId);
 
-router.get("/api/v1/eventos/dia/mes/:dia/:mes", APIController.getEventosDiaDoMes)
+router.get("/api/v1/eventos/diaDoAno/:dia", APIController.getEventosDiaDoAno);
+
+router.get("/api/v1/eventos/dia/mes/:dia/:mes", APIController.getEventosDiaDoMes);
 
 module.exports = router;

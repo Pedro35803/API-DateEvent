@@ -30,6 +30,12 @@ Atualmente ainda estou criando a API e a fazendo as rotas de forma funcional, en
 https://api-datasim.herokuapp.com/api/v1/feriados/2022
 ```
 
+* Eventos de hoje
+
+```
+https://api-datasim.herokuapp.com/api/v1/eventos/hoje
+```
+
 * Evento Randomico
 
 ```
