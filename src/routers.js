@@ -4,6 +4,10 @@ const router = express.Router();
 const DiasController = require('./controller/Dias');
 const EventosController = require('./controller/Eventos');
 const APIController = require('./controller/Api');
+const Authenticator = require("./controller/Authenticator")
+
+router.use("/api/eventos/api_key/:key", Authenticator.isAuthenticated);
+router.use("/api/dias/api_key/:key", Authenticator.isAuthenticated);
 
 router.route("/api/dias/api_key/:key")
     .get(DiasController.getDias)
