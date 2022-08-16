@@ -19,6 +19,7 @@ module.exports = {
 
     async getEventosHoje(req, res, next) {
         const data = new Date();
+        data.setUTCHours(data.getHours() - 3);
         const dia = data.getDate();
         const mes = data.getMonth() + 1;
 
