@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
-const Dias = require('./Dias');
 
 const Eventos = sequelize.define("eventos", {
     id: {
@@ -15,24 +14,18 @@ const Eventos = sequelize.define("eventos", {
     },
     tipo: {
         type: DataTypes.STRING,
-        allowNull: false
+        defaultValue: "Evento Comum",
     },
-    diaDoAno: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+    ocorrencia: {
+        type: DataTypes.STRING,
+        defaultValue: "Fixa",
     }
 });
 
 const init = async () => {
-    await Eventos.sync();
+    await Eventos.sync({force: true});
 }
 
 init();
-
-Dias.hasMany(Eventos, {
-    foreignKey: 'diaDoAno',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-});
 
 module.exports = Eventos;

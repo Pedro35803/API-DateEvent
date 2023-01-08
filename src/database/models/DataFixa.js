@@ -1,38 +1,34 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
+const Eventos = require("./Eventos")
 
-const Dias = sequelize.define("dias", {
-    diaDoAno: {
+const DataFixa = sequelize.define("data_fixa", {
+    id_evento: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
         allowNull: false,
-        validate: {
-            min: 1,
-            max: 366
+        primaryKey: true,
+        autoIncrement: true,
+        references: {
+            model: Eventos,
+            key: "id"
         }
     },
-    diaDoMes: {
+    dia: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate: {
-            min: 1,
-            max: 31
-        }
     },
     mes: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate: {
-            min: 1,
-            max: 12
-        }
     }
 });
 
 const init = async () => {
-    await Dias.sync();
+    await DataFixa.sync({force: true});
 }
 
 init();
 
-module.exports = Dias;
+// DataFixa.hasOne(Eventos)
+
+module.exports = DataFixa;

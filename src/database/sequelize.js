@@ -1,9 +1,13 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config()
 
-const hostDoBD = process.env.DATABASE_URL;
+const database = process.env.DB_NAME;
+const usuario = process.env.DB_USER;
+const senha = process.env.DB_PASSWORD;
 
-const sequelize = new Sequelize(hostDoBD, {
+const sequelize = new Sequelize(database, usuario, senha, {
+    host: process.env.DB_HOST || 'localhost',
+    dialect: process.env.DB_HOST || 'postgres',
     define: {
         timestamps: true,
         underscored: true
