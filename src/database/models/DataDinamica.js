@@ -1,39 +1,16 @@
-const { DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
-const Eventos = require("./Eventos")
-
-const DataDinamica = sequelize.define("data_dinamica", {
-    id_evento: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-        references: {
-            model: Eventos,
-            key: "id"
-        }
-    },
-    dia: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true
-    },
-    mes: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-    },
-    ano: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-    }
-});
 
 const init = async () => {
-    await DataDinamica.sync({force: true});
+    const query = `
+      CREATE TABLE data_dinamica (
+        id_evento INTEGER REFERENCES eventos(id),
+        dia INTEGER NOT NULL,
+        mes INTEGER NOT NULL,
+        ano INTEGER NOT NULL,
+        PRIMARY KEY (id_evento, dia, mes, ano)
+      );`;
+  
+    await sequelize.query(query);
 }
-
+  
 init();
-
-module.exports = DataDinamica;

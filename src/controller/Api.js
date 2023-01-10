@@ -1,9 +1,9 @@
 const sequelize = require('../database/sequelize');
 const { QueryTypes } = require('sequelize');
 
-const Eventos = require("../database/models/Eventos")
-const DataFixa = require("../database/models/DataFixa")
-const DataDinamica = require("../database/models/DataDinamica")
+require("../database/models/Eventos")
+require("../database/models/DataFixa")
+require("../database/models/DataDinamica")
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -11,21 +11,17 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
+const selectDefault = "SELECT * from    "
+
 module.exports = {
-    async getFeriados(req, res, next) {     
-        const eventosFeriados = await Eventos.findAll({
-            where: {
-                tipo: ['Feriado', 'Facultativo']
-            }
-        }).then((response) => res.json(response))
-        .catch(next);
-
-        console.log(eventosFeriados)
-
-        // const data_evento = await DataFixa.find({
-
-        // })
-    },
+    // async getFeriados(req, res, next) {     
+    //     const eventosFeriados = await Eventos.findAll({
+    //         where: {
+    //             tipo: ['Feriado', 'Facultativo']
+    //         }
+    //     }).then((response) => res.json(response))
+    //     .catch(next);
+    // },
 
     // async getEventosHoje(req, res, next) {
     //     const data = new Date();
