@@ -1,1 +1,3 @@
 GET http://localhost:3000/api/v1/feriados HTTP/1.1
+
+GET http://localhost:3000/api/v1/eventos/random HTTP/1.1

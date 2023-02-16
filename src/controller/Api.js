@@ -1,9 +1,11 @@
 const sequelize = require('../database/sequelize');
 const { QueryTypes } = require('sequelize');
 
-const Eventos = require("../database/models/Eventos")
-const DataDinamica = require("../database/models/DataFixa")
-const DataFixa = require("../database/models/DataDinamica")
+const Eventos = require("../database/models/Eventos");
+const DataDinamica = require("../database/models/DataFixa");
+const DataFixa = require("../database/models/DataDinamica");
+
+const countEvents = require("../services/countEvents");
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -13,7 +15,7 @@ function getRandomInt(min, max) {
 
 module.exports = {
     async getFeriados(req, res, next) {     
-        const eventosFeriados = await Eventos.findAll({
+        await Eventos.findAll({
             where: {
                 tipo: ['Feriado', 'Facultativo']
             }
@@ -33,23 +35,18 @@ module.exports = {
     //     .catch(next);
     // },
 
-    // async getQuantEventos(req, res, next) {
-    //     await sequelize.query(`Select count(*) From eventos`,{
-    //         type: QueryTypes.SELECT
-    //     }).then((resultado) => {
-    //         req.quantEventos = resultado[0].count;
-    //         next();
-    //     }).catch(() => res.send("Ocorreu um error ao tentar acessar a quantidade de eventos"));
-    // },
+    async getRandom(req, res, next) {
+        const count = await countEvents();
+        
+        if (!count) throw new Error("Sem nenhum evento cadastrado no BD")
+        
+        const idRandom = getRandomInt(1, count);
 
-    // async getRandom(req, res, next) {
-    //     const idAleatorio = getRandomInt(1, req.quantEventos);
-
-    //     await sequelize.query(`${selectDefault} where e.id = ${idAleatorio}`,{
-    //         type: QueryTypes.SELECT
-    //     }).then((resultado) => res.json(resultado))
-    //     .catch(next);
-    // },
+        await Eventos.findOne({
+            where: { id: idRandom }
+        }).then((event) => res.json(event))
+        .catch(next);
+    },
 
     // async getEventosId(req, res, next) {
     //     const id = req.params.id;
@@ -78,4 +75,4 @@ module.exports = {
     //     }).then((resultado) => res.json(resultado))
     //     .catch(next);
     // }
-    }
+}
