@@ -11,8 +11,6 @@ app.use(express.json());
 app.use(cors());
 app.use("/api/v1", router);
 
-const porta = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
-app.listen(porta, () => {
-    console.log("Executando a API, acesse em http://localhost:" + porta);
-});
+app.listen(port, () => console.log(`Starting API in port ${port}`));
