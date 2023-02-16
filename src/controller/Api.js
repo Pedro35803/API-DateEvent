@@ -21,20 +21,19 @@ module.exports = {
     },
 
     async getEventosHoje(req, res, next) {
-        const data = new Date();
-        data.setUTCHours(data.getHours() - 3);
-        const dia = data.getDate();
-        const mes = data.getMonth() + 1;
-        const ano = data.getFullYear();
+        const date = new Date();
+        date.setUTCHours(date.getHours() - 3);
+        const dia = date.getDate();
+        const mes = date.getMonth() + 1;
+        const ano = date.getFullYear();
 
         const allDinamic = await DataDinamica.findAll({
-            where: { dia, mes, ano },
-            include: { all: true }
+            where: { dia, mes, ano }
         });
 
-        const allFix = await DataDinamica.findAll({
+        const allFix = await DataFixa.findAll({
             where: { dia, mes },
-            include: { all: true }
+            include: { all }
         })
 
         res.json(allFix)
@@ -58,23 +57,25 @@ module.exports = {
         .catch(next);
     },
 
-    // async getEventosId(req, res, next) {
-    //     const id = req.params.id;
+    async getEventosId(req, res, next) {
+        const id = req.params.id;
 
-    //     await sequelize.query(`${selectDefault} where e.id = ${id}`,{
-    //         type: QueryTypes.SELECT
-    //     }).then((resultado) => res.json(resultado))
-    //     .catch(next);
-    // },
+        await Eventos.findOne({
+            where: { id }
+        }).then((event) => {
+            if (!event) throw new Error("Id not exists")
+            res.json(event)
+        }).catch(next);
+    },
 
-    // async getEventosDiaDoAno(req, res, next) {
-    //     const dia = req.params.dia;
+    async getEventosDiaDoAno(req, res, next) {
+        const dia = req.params.dia;
 
-    //     await sequelize.query(`${selectDefault} where d.dia_do_Ano = ${dia}`,{
-    //         type: QueryTypes.SELECT
-    //     }).then((resultado) => res.json(resultado))
-    //     .catch(next);
-    // },
+        await Eventos.findAll({
+            where: { id }
+        }).then((event) => res.json(event))
+        .catch(next);
+    },
 
     // async getEventosDiaDoMes(req, res, next) {
     //     const dia = req.params.dia;

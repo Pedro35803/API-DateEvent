@@ -10,7 +10,7 @@ router.get("/eventos/hoje", APIController.getEventosHoje);
 
 router.get("/eventos/random", APIController.getRandom);
 
-// router.get("/eventos/id/:id", APIController.getEventosId);
+router.get("/eventos/id/:id", APIController.getEventosId);
 
 // router.get("/eventos/diaDoAno/:dia", APIController.getEventosDiaDoAno);
 

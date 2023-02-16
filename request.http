@@ -2,4 +2,6 @@
 
 # GET http://localhost:3000/api/v1/eventos/random HTTP/1.1
 
-GET http://localhost:3000/api/v1/eventos/hoje HTTP/1.1
+# GET http://localhost:3000/api/v1/eventos/hoje HTTP/1.1
+
+GET http://localhost:3000/api/v1/eventos/id/1 HTTP/1.1
