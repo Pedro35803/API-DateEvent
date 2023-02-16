@@ -6,11 +6,9 @@ const APIController = require('./controller/Api');
 
 router.get("/feriados", APIController.getFeriados);
 
-// router.get("/eventos/hoje", APIController.getEventosHoje);
+router.get("/eventos/hoje", APIController.getEventosHoje);
 
 router.get("/eventos/random", APIController.getRandom);
-
-router.get("/error", () => {throw new Error("Aqui tem um error")})
 
 // router.get("/eventos/id/:id", APIController.getEventosId);
 

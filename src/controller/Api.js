@@ -20,17 +20,30 @@ module.exports = {
         .catch(next);
     },
 
-    // async getEventosHoje(req, res, next) {
-    //     const data = new Date();
-    //     data.setUTCHours(data.getHours() - 3);
-    //     const dia = data.getDate();
-    //     const mes = data.getMonth() + 1;
+    async getEventosHoje(req, res, next) {
+        const data = new Date();
+        data.setUTCHours(data.getHours() - 3);
+        const dia = data.getDate();
+        const mes = data.getMonth() + 1;
+        const ano = data.getFullYear();
 
-    //     await sequelize.query(`${selectDefault} where d.dia_do_mes = ${dia} and d.mes = ${mes}`, {
-    //         type: QueryTypes.SELECT
-    //     }).then((resultado) => res.json(resultado))
-    //     .catch(next);
-    // },
+        const allDinamic = await DataDinamica.findAll({
+            where: { dia, mes, ano },
+            include: { all: true }
+        });
+
+        const allFix = await DataDinamica.findAll({
+            where: { dia, mes },
+            include: { all: true }
+        })
+
+        res.json(allFix)
+
+        // await Eventos.findAll({
+        //     where: { id }
+        // }).then((event) => res.json(event))
+        // .catch(next);
+    },
 
     async getRandom(req, res, next) {
         const count = await countEvents();
