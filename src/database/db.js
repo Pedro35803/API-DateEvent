@@ -4,18 +4,18 @@ require('dotenv').config()
 const database = process.env.DB_NAME;
 const usuario = process.env.DB_USER;
 const senha = process.env.DB_PASSWORD;
+const host = process.env.DB_HOST || 'localhost';
+const port = process.env.DB_port || 5432;
 
-const sequelize = new Sequelize(database, usuario, senha, {
-    host: process.env.DB_HOST || 'localhost',
-    dialect: process.env.DB_HOST || 'postgres',
-    define: {
-        underscored: true,
-        timestamps: true
-    },
-});
+const { Client } = require('pg')
+const client = new Client({
+    host, port, database,
+    user: usuario,
+    password: senha,
+})
 
-sequelize.authenticate()
+client.connect()
     .then(() => console.log("Conectado ao Banco de Dados com sucesso"))
     .catch((error) => console.log("Ocorreu um error ao se comunicar com o BD: " + error));
 
-module.exports = sequelize;
+module.exports = client;

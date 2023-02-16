@@ -4,11 +4,7 @@ const router = express.Router();
 const APIController = require('./controller/Api');
 // const Authenticator = require("./services/Authenticator")
 
-// router.get("/api/v1/feriados", APIController.getFeriados);
-// (async function() {
-
-//     await APIController.getFeriados()
-// }())
+router.get("/feriados", APIController.getFeriados);
 
 // router.get("/api/v1/eventos/hoje", APIController.getEventosHoje);
 

@@ -1,16 +1,30 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../sequelize');
 
+const Evento = sequelize.define('eventos', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  evento: {
+    type: DataTypes.STRING(255),
+    allowNull: false
+  },
+  tipo: {
+    type: DataTypes.STRING(255),
+    defaultValue: 'Evento Comum'
+  },
+  ocorrencia: {
+    type: DataTypes.STRING(255),
+    defaultValue: 'Fixa'
+  }
+});
+
 const init = async () => {
-    const query = `
-      CREATE TABLE eventos (
-        id SERIAL PRIMARY KEY,
-        evento VARCHAR(255) NOT NULL,
-        tipo VARCHAR(255) DEFAULT 'Evento Comum',
-        ocorrencia VARCHAR(255) DEFAULT 'Fixa'
-      );`;
-  
-    await sequelize.query(query);
+  await Evento.sync({ force: true });
 }
-  
+
 init();
+
+module.exports = Evento;

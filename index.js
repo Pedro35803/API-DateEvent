@@ -1,4 +1,4 @@
-const router = require('./src/routers');
+const router = require('./src/router');
 const express = require('express');
 const cors = require('cors');
 
@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use(router);
+app.use("/api/v1", router);
 
 const porta = process.env.PORT || 3000;
 
