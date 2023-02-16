@@ -15,7 +15,7 @@ const sequelize = new Sequelize(database, usuario, senha, {
 });
 
 sequelize.authenticate()
-    .then(() => console.log("Conectado ao Banco de Dados com sucesso"))
-    .catch((error) => console.log("Ocorreu um error ao se comunicar com o BD: " + error));
+    .then(() => console.log("DataBase connected whit sucess"))
+    .catch((error) => console.log("DataBase not connected, error: " + error));
 
 module.exports = sequelize;

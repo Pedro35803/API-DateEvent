@@ -1,6 +1,3 @@
-const sequelize = require('../database/sequelize');
-const { QueryTypes } = require('sequelize');
-
 const Eventos = require("../database/models/Eventos");
 const DataDinamica = require("../database/models/DataFixa");
 const DataFixa = require("../database/models/DataDinamica");
@@ -38,12 +35,12 @@ module.exports = {
     async getRandom(req, res, next) {
         const count = await countEvents();
         
-        if (!count) throw new Error("Sem nenhum evento cadastrado no BD")
+        if (count === 0) throw new Error("DataBase is empty");
         
-        const idRandom = getRandomInt(1, count);
+        const id = getRandomInt(1, count);
 
         await Eventos.findOne({
-            where: { id: idRandom }
+            where: { id }
         }).then((event) => res.json(event))
         .catch(next);
     },
