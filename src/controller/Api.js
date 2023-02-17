@@ -2,7 +2,8 @@ const Eventos = require("../database/models/Eventos");
 
 const countEvents = require("../services/countEvents");
 const { 
-    getTodayInDayOfYear 
+    getTodayInDayOfYear,
+    convertDayAndMothInDayOfYear
 } = require("../services/date")
 
 function getRandomInt(min, max) {
@@ -23,7 +24,6 @@ module.exports = {
 
     async getEventosHoje(req, res, next) {
         const diaDoAno = getTodayInDayOfYear()
-        console.log(diaDoAno)
 
         await Eventos.findAll({
             where: { diaDoAno }
@@ -67,13 +67,15 @@ module.exports = {
         .catch(next);
     },
 
-    // async getEventosDiaDoMes(req, res, next) {
-    //     const dia = req.params.dia;
-    //     const mes = req.params.mes;
+    async getEventosDiaDoMes(req, res, next) {
+        const dia = req.params.dia;
+        const mes = req.params.mes;
 
-    //     await sequelize.query(`${selectDefault} where d.dia_do_mes = ${dia} and d.mes = ${mes}`,{
-    //         type: QueryTypes.SELECT
-    //     }).then((resultado) => res.json(resultado))
-    //     .catch(next);
-    // }
+        const diaDoAno = convertDayAndMothInDayOfYear(dia, mes)
+
+        await Eventos.findAll({
+            where: { diaDoAno }
+        }).then((event) => res.json(event))
+        .catch(next);
+    }
 }

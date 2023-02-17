@@ -11,4 +11,13 @@ function getTodayInDayOfYear() {
     return day.dayOfYear();
 }
 
-module.exports = { getTodayInDayOfYear }
+function convertDayAndMothInDayOfYear(day, month) {
+    const year = dayjs().year();
+    const date = dayjs(`${month}-${day}-${year}`);
+    return date.dayOfYear();
+} 
+
+module.exports = { 
+    getTodayInDayOfYear, 
+    convertDayAndMothInDayOfYear 
+}
