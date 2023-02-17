@@ -6,7 +6,7 @@ const getAll = async () => {
 }
 
 const create = async ({ nome, tipo, diaDoAno }) => {
-    const response = await Eventos.create({ evento, tipo, diaDoAno });
+    const response = await Eventos.create({ nome, tipo, diaDoAno });
     return response;
 }
 

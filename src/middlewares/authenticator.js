@@ -1,12 +1,11 @@
-require('dotenv').config();
-
-const isAuthenticated = (req, res, next) => {
+async function isAuthenticated (req, res, next) {
     const chaveAdmin = process.env.KEY_ADM;
 
-    console.log(req.head.Authorization)
+    const authHeader = req.headers.authorization;
+    const token = authHeader.split(" ")[1];
 
-    if (chaveAdmin == req.head.Authorization) next();
+    if (chaveAdmin === token) next();
     else throw new Error("Unauthorized")
 }
 
-module.exports = { isAuthenticated };
+module.exports = isAuthenticated;
