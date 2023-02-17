@@ -21,6 +21,7 @@ const update = async ({ nome, tipo, diaDoAno }, id) => {
         update,
         { where: { id } }
     );
+    
     return response;
 }
 
