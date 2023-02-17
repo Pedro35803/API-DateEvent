@@ -12,7 +12,7 @@ router.get("/eventos/random", APIController.getRandom);
 
 router.get("/eventos/id/:id", APIController.getEventosId);
 
-// router.get("/eventos/diaDoAno/:dia", APIController.getEventosDiaDoAno);
+router.get("/eventos/diaDoAno/:dia", APIController.getEventosDiaDoAno);
 
 // router.get("/eventos/dia/mes/:dia/:mes", APIController.getEventosDiaDoMes);
 

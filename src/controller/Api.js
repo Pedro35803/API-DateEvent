@@ -56,10 +56,13 @@ module.exports = {
     },
 
     async getEventosDiaDoAno(req, res, next) {
-        const dia = req.params.dia;
+        const diaDoAno = req.params.dia;
+
+        if (diaDoAno <= 0 && 366 < diaDoAno) 
+            throw new Error("Day of year not exists")
 
         await Eventos.findAll({
-            where: { id }
+            where: { diaDoAno }
         }).then((event) => res.json(event))
         .catch(next);
     },
