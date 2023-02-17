@@ -15,9 +15,9 @@ const Evento = sequelize.define('eventos', {
     type: DataTypes.STRING(255),
     defaultValue: 'Evento Comum'
   },
-  ocorrencia: {
-    type: DataTypes.STRING(255),
-    defaultValue: 'Fixa'
+  diaDoAno: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 });
 

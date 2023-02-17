@@ -4,7 +4,7 @@ const cors = require("cors");
 
 const handleError = require('./src/handleError')
 const router = require("./src/router");
-  
+
 require('./src/database/sequelize');
 require('dotenv').config();
 

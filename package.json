@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Pedro35803/API-DataSim#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dayjs": "^1.11.7",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",

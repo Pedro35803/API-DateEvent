@@ -1,8 +1,9 @@
 const Eventos = require("../database/models/Eventos");
-const DataDinamica = require("../database/models/DataFixa");
-const DataFixa = require("../database/models/DataDinamica");
 
 const countEvents = require("../services/countEvents");
+const { 
+    getTodayInDayOfYear 
+} = require("../services/date")
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -21,27 +22,13 @@ module.exports = {
     },
 
     async getEventosHoje(req, res, next) {
-        const date = new Date();
-        date.setUTCHours(date.getHours() - 3);
-        const dia = date.getDate();
-        const mes = date.getMonth() + 1;
-        const ano = date.getFullYear();
+        const diaDoAno = getTodayInDayOfYear()
+        console.log(diaDoAno)
 
-        const allDinamic = await DataDinamica.findAll({
-            where: { dia, mes, ano }
-        });
-
-        const allFix = await DataFixa.findAll({
-            where: { dia, mes },
-            include: { all }
-        })
-
-        res.json(allFix)
-
-        // await Eventos.findAll({
-        //     where: { id }
-        // }).then((event) => res.json(event))
-        // .catch(next);
+        await Eventos.findAll({
+            where: { diaDoAno }
+        }).then((event) => res.json(event))
+        .catch(next);
     },
 
     async getRandom(req, res, next) {
