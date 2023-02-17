@@ -7,7 +7,7 @@ const Evento = sequelize.define('eventos', {
     primaryKey: true,
     autoIncrement: true
   },
-  evento: {
+  nome: {
     type: DataTypes.STRING(255),
     allowNull: false
   },
