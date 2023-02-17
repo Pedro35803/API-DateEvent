@@ -10,4 +10,11 @@ describe("Testes de integração", () => {
         expect(response.body).toStrictEqual([]);
     });
 
+    it("GET para /eventos/hoje", async () => {
+        const response = await superTest(app)
+            .get("/api/v1/eventos/hoje");
+
+        expect(response.body).toStrictEqual([]);
+    });
+
 });
