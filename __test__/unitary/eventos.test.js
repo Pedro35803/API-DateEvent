@@ -1,3 +1,4 @@
+const { Sequelize } = require("sequelize")
 const { create } = require("../../src/database/crud/eventos")
 
 const mockDataEvento = {
@@ -6,11 +7,9 @@ const mockDataEvento = {
     diaDoAno: 1
 }
 
-jest.mock("../../src/database/sequelize.js", () => {
-    return {
-        sequelize: new Sequelize("sqlite::memory:")
-    }
-})
+const sequelize = new Sequelize('sqlite::memory:');
+
+jest.mock("../../src/database/sequelize.js", () => sequelize)
 
 describe("Criação de Usuário", () => {
     it("Criando usuário com sucesso", () => {
