@@ -12,6 +12,11 @@ const sequelize = new Sequelize(database, usuario, senha, {
         underscored: true,
         timestamps: true
     },
+    dialectOptions: {
+        ssl: {
+            rejectUnauthorized: false,
+        },
+    },
 });
 
 sequelize.authenticate()
