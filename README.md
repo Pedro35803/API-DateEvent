@@ -27,37 +27,37 @@ Atualmente ainda estou criando a API e a fazendo as rotas de forma funcional, en
 * Feriados
 
 ```
-https://api-datasim.herokuapp.com/api/v1/feriados/2022
+https://api-datasim.onrender.com/api/v1/feriados/2022
 ```
 
 * Eventos de hoje
 
 ```
-https://api-datasim.herokuapp.com/api/v1/eventos/hoje
+https://api-datasim.onrender.com/api/v1/eventos/hoje
 ```
 
 * Evento Randomico
 
 ```
-https://api-datasim.herokuapp.com/api/v1/eventos/random
+https://api-datasim.onrender.com/api/v1/eventos/random
 ```
 
 * Evento consultado pelo seu id
 
 ```
-https://api-datasim.herokuapp.com/api/v1/eventos/id/{id}
+https://api-datasim.onrender.com/api/v1/eventos/id/{id}
 ```
 
 * Eventos consultados pelo dia do ano
 
 ```
-https://api-datasim.herokuapp.com/api/v1/eventos/diaDoAno/{dia}
+https://api-datasim.onrender.com/api/v1/eventos/diaDoAno/{dia}
 ```
 
 * Eventos consultados pelos dia e o mes
 
 ```
-https://api-datasim.herokuapp.com/api/v1/eventos/dia/mes/{dia}/{mes}
+https://api-datasim.onrender.com/api/v1/eventos/dia/mes/{dia}/{mes}
 ```
 
 ---
