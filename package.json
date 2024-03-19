@@ -1,5 +1,5 @@
 {
-  "name": "api-datasim",
+  "name": "api-DateEvent",
   "version": "1.0.0",
   "description": "Uma API que terá como função retornar todos os eventos de datas, sendo datas comemorativas ou não",
   "main": "index.js",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pedro35803/API-DataSim.git"
+    "url": "git+https://github.com/Pedro35803/API-DateEvent.git"
   },
   "keywords": [],
   "author": "Pedro35803",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Pedro35803/API-DataSim/issues"
+    "url": "https://github.com/Pedro35803/API-DateEvent/issues"
   },
-  "homepage": "https://github.com/Pedro35803/API-DataSim#readme",
+  "homepage": "https://github.com/Pedro35803/API-DateEvent#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dayjs": "^1.11.7",
