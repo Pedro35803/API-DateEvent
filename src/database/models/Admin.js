@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../sequelize");
-const bcrypt = require("bcrypt");
+const { hash } = require("bcrypt");
 
 const Admin = sequelize.define("admin", {
   id: {
@@ -18,6 +18,7 @@ const Admin = sequelize.define("admin", {
   },
   type: {
     type: DataTypes.ENUM(["simple", "superAdmin"]),
+    defaultValue: "simple",
     allowNull: false,
   },
 });
@@ -28,7 +29,7 @@ const init = async () => {
 
   if (allAdmin.length === 0) {
     const { ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
-    const passwordHash = await bcrypt.hash(ADMIN_PASSWORD, 10);
+    const passwordHash = await hash(ADMIN_PASSWORD, 10);
 
     await Admin.create({
       password: passwordHash,

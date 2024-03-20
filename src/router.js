@@ -3,7 +3,7 @@ const router = express.Router();
 
 const isAuthenticated = require("./middlewares/authenticator");
 const EventosController = require("./controller/Eventos");
-// const AdminController = require("./controller/Admin");
+const AdminController = require("./controller/Admin");
 const APIController = require("./controller/Api");
 
 router.get("/feriados", APIController.getFeriados);

@@ -1,59 +1,69 @@
 const admin = require("../database/crud/admin");
 
 module.exports = {
-    async getAllAdmins(req, res, next) {
-        const { adminType } = res.locals;
+  async getAllAdmins(req, res, next) {
+    const { adminType } = res.locals;
 
-        if (adminType !== "superAdmin") {
-            throw new Error("Unauthorized access");
-        }
+    if (adminType !== "superAdmin") {
+      throw new Error("Unauthorized access");
+    }
 
-        const allAdmin = admin.getAll();
-        res.json(allAdmin);
-    },
+    const allAdmin = await admin.getAll();
+    res.json(allAdmin);
+  },
 
-    async getAdminById(req, res, next) {
-        const { adminId, adminType } = res.locals;
-        const { id } = req.params;
+  async getAdminById(req, res, next) {
+    const { adminId, adminType } = res.locals;
+    const { id } = req.params;
 
-        if (adminId !== id && adminType !== "superAdmin") {
-            throw new Error("Unauthorized access");
-        }
+    if (adminId !== id && adminType !== "superAdmin") {
+      throw new Error("Unauthorized access");
+    }
 
-        const record = admin.getById(id);
-        res.json(record);
-    },
+    const record = await admin.getById(id);
 
-    async create(req, res, next) {
-        const { adminType } = res.locals;
+    if (Object.keys(record).length === 0) {
+      return res.status(404).json({
+        message: "Admin user not found",
+        status: false,
+      });
+    }
 
-        if (adminType !== "superAdmin") {
-            throw new Error("Unauthorized access");
-        }
+    res.json(record);
+  },
 
-        const response = admin.create(...req.body);
-        res.status(201).json(response);
-    },
+  async create(req, res, next) {
+    const { adminType } = res.locals;
 
-    async update(req, res, next) {
-        const { id } = req.body;
+    if (adminType !== "superAdmin") {
+      throw new Error("Unauthorized access");
+    }
 
-        if (adminId !== id && adminType !== "superAdmin") {
-            throw new Error("Unauthorized access");
-        }
+    const response = await admin.create(req.body);
+    res.status(201).json(response);
+  },
 
-        const response = await admin.update(...req.body, id);
-        res.status(203).json(response);
-    },
+  async update(req, res, next) {
+    const { adminId, adminType } = res.locals;
+    const { id } = req.params;
 
-    async destroy(req, res, next) {
-        const { id } = req.body;
-        
-        if (adminId !== id && adminType !== "superAdmin") {
-            throw new Error("Unauthorized access");
-        }
+    if (adminId !== id && adminType !== "superAdmin") {
+      throw new Error("Unauthorized access");
+    }
 
-        const response = await admin.destroy(id);
-        res.status(204).json(response);
-    },
+    const response = await admin.update(req.body, id);
+    res.status(203).json(response);
+  },
+
+  async destroy(req, res, next) {
+    const { adminId, adminType } = res.locals;
+    const { id } = req.params;
+
+    if (adminId !== id && adminType !== "superAdmin") {
+      throw new Error("Unauthorized access");
+    }
+
+    const response = await admin.destroy(id);
+    res.status(204).json(response);
+  },
 };
