@@ -7,7 +7,7 @@ const EventDynamic = sequelize.define("eventDynamic", {
     primaryKey: true,
     autoIncrement: true,
     references: {
-      model: Event,
+      model: sequelize.model["Event"],
       key: "id",
     },
   },
