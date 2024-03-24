@@ -1,4 +1,4 @@
-const Eventos = require("../database/models/Eventos");
+const Events = require("../database/models/Event");
 
 const countEvents = require("../services/countEvents");
 const { 
@@ -14,7 +14,7 @@ function getRandomInt(min, max) {
 
 module.exports = {
     async getFeriados(req, res, next) {     
-        await Eventos.findAll({
+        await Events.findAll({
             where: {
                 tipo: ['Feriado', 'Facultativo']
             }
@@ -25,7 +25,7 @@ module.exports = {
     async getEventosHoje(req, res, next) {
         const diaDoAno = getTodayInDayOfYear()
 
-        await Eventos.findAll({
+        await Events.findAll({
             where: { diaDoAno }
         }).then((event) => res.json(event))
         .catch(next);
@@ -38,21 +38,10 @@ module.exports = {
         
         const id = getRandomInt(1, count);
 
-        await Eventos.findOne({
+        await Events.findOne({
             where: { id }
         }).then((event) => res.json(event))
         .catch(next);
-    },
-
-    async getEventosId(req, res, next) {
-        const id = req.params.id;
-
-        await Eventos.findOne({
-            where: { id }
-        }).then((event) => {
-            if (!event) throw new Error("Id not exists")
-            res.json(event)
-        }).catch(next);
     },
 
     async getEventosDiaDoAno(req, res, next) {
@@ -61,7 +50,7 @@ module.exports = {
         if (diaDoAno <= 0 && 366 < diaDoAno) 
             throw new Error("Day of year not exists")
 
-        await Eventos.findAll({
+        await Events.findAll({
             where: { diaDoAno }
         }).then((event) => res.json(event))
         .catch(next);
@@ -73,7 +62,7 @@ module.exports = {
 
         const diaDoAno = convertDayAndMothInDayOfYear(dia, mes)
 
-        await Eventos.findAll({
+        await Events.findAll({
             where: { diaDoAno }
         }).then((event) => res.json(event))
         .catch(next);

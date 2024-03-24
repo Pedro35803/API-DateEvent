@@ -1,11 +1,11 @@
-const Eventos = require("../database/models/Eventos")
+const { Event } = require("../database/models/Event");
 
 async function getQuantEventos() {
-    const count = Eventos.findAndCountAll()
-        .then(events => events.count)
-        .catch(err => console.error(err))
-        
-    return count;
+  const count = Event.findAndCountAll()
+    .then((event) => event.count)
+    .catch((err) => console.error(err));
+
+  return count;
 }
 
 module.exports = getQuantEventos;

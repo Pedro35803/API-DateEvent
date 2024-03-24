@@ -2,11 +2,11 @@ const express = require("express");
 require("express-async-errors");
 const cors = require("cors");
 
-const handleError = require('./src/handleError')
+const handleError = require("./src/middlewares/handleError");
 const router = require("./src/router");
 
-require('./src/database/sequelize');
-require('dotenv').config();
+require("./src/database/sequelize");
+require("dotenv").config();
 
 const app = express();
 
