@@ -44,7 +44,7 @@ module.exports = {
         .catch(next);
     },
 
-    async getEventosDiaDoAno(req, res, next) {
+    async getEventsHandle(req, res, next) {
         const diaDoAno = req.params.dia;
 
         if (diaDoAno <= 0 && 366 < diaDoAno) 
