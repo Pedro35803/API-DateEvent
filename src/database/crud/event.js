@@ -4,6 +4,12 @@ const EventStatic = require("../models/EventStatic");
 const EventDynamic = require("../models/EventDynamic");
 const dayjs = require("dayjs");
 
+const objClear = {
+  isDynamic: undefined,
+  eventDynamic: undefined,
+  eventStatic: undefined,
+};
+
 const getAll = async () => {
   const response = await Event.findAll({
     include: [EventDynamic, EventStatic],
@@ -31,12 +37,6 @@ const getById = async (id) => {
     raw: true,
   });
 
-  const objClear = {
-    isDynamic: undefined,
-    eventDynamic: undefined,
-    eventStatic: undefined,
-  };
-
   const dateRecord = response.isDynamic
     ? response.eventDynamic.date
     : `${response.eventStatic.day}/${response.eventStatic.month}`;
@@ -45,16 +45,41 @@ const getById = async (id) => {
   return { ...response, ...objClear, date };
 };
 
+const getCustomDate = async (whereDynamic, whereStatic = whereDynamic) => {
+  const response = await Event.findAll({
+    include: [
+      {
+        model: EventDynamic,
+        where: whereDynamic,
+        required: false,
+      },
+      {
+        model: EventStatic,
+        where: whereStatic,
+        required: false,
+      },
+    ],
+    nest: true,
+    raw: true,
+  });
+
+  return response.map((obj) => {
+    const table = obj.isDynamic ? obj.eventDynamic : obj.eventStatic;
+    const date = dayjs(`${table.month}-${table.day}`).format("DD/MM");
+    return { ...obj, ...objClear, date };
+  });
+};
+
 const create = async ({ name, type, date, isDynamic }) => {
   const event = await Event.create({ name, type, isDynamic });
-  const dayObj = dayjs(date);
+  const dayObj = dayjs(date, "YYYY-MM-DD");
 
   if (isDynamic) {
     await EventDynamic.create({ date, idEvent: event.id });
   } else {
     await EventStatic.create({
-      day: dayObj.day(),
-      month: dayObj.month(),
+      day: dayObj.date(),
+      month: dayObj.month() + 1,
       idEvent: event.id,
     });
   }
@@ -70,7 +95,7 @@ const update = async ({ name, type, date }, id) => {
 
   if (!isDynamic && date) {
     await EventStatic.update(
-      { day: dayObj.day(), month: dayObj.month() },
+      { day: dayObj.date(), month: dayObj.month() + 1 },
       { where: { idEvent: id } }
     );
   } else if (isDynamic && date) {
@@ -86,4 +111,12 @@ const destroy = (id) => {
   return response;
 };
 
-module.exports = { getAll, getById, getExistOrThrow, create, update, destroy };
+module.exports = {
+  getExistOrThrow,
+  getCustomDate,
+  getById,
+  getAll,
+  create,
+  update,
+  destroy,
+};
