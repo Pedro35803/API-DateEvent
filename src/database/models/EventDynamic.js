@@ -33,7 +33,7 @@ const EventDynamic = sequelize.define("eventDynamic", {
   },
   date: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
   },
 });
 

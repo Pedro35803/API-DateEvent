@@ -2,7 +2,10 @@ require("../models/ForeignKey/Event");
 const Event = require("../models/Event");
 const EventStatic = require("../models/EventStatic");
 const EventDynamic = require("../models/EventDynamic");
+const customParseFormat = require("dayjs/plugin/customParseFormat");
 const dayjs = require("dayjs");
+
+dayjs.extend(customParseFormat);
 
 const objClear = {
   isDynamic: undefined,
@@ -20,7 +23,12 @@ const getAll = async () => {
 };
 
 const getExistOrThrow = async (id) => {
-  const event = await Event.findOne({ where: { id } });
+  const event = await Event.findOne({
+    include: [EventDynamic, EventStatic],
+    where: { id },
+    nest: true,
+    raw: true,
+  });
 
   if (!event) {
     throw new Error("Event not found");
@@ -37,11 +45,12 @@ const getById = async (id) => {
     raw: true,
   });
 
-  const dateRecord = response.isDynamic
-    ? response.eventDynamic.date
-    : `${response.eventStatic.day}/${response.eventStatic.month}`;
+  const table = response.isDynamic
+    ? response.eventDynamic
+    : response.eventStatic;
 
-  const date = dayjs(dateRecord).format("DD/MM");
+  const dateString = `${table.month}-${table.day}`;
+  const date = dayjs(dateString).format("DD/MM");
   return { ...response, ...objClear, date };
 };
 
@@ -77,19 +86,24 @@ const getCustomDate = async (whereDynamic, whereStatic = whereDynamic) => {
 
 const create = async ({ name, type, date, isDynamic }) => {
   const event = await Event.create({ name, type, isDynamic });
-  const dayObj = dayjs(date, "YYYY-MM-DD");
+  const format = "YYYY-MM-DD";
+  const dayObj = dayjs(date, format, true);
+
+  if (!dayObj.isValid()) {
+    throw new Error(`Envie uma data em um formato valido: ${format}`);
+  }
 
   const objCreate = {
     day: dayObj.date(),
     month: dayObj.month() + 1,
+    year: dayObj.year(),
     idEvent: event.id,
+    date: date,
   };
 
-  if (isDynamic) {
-    await EventDynamic.create({ ...objCreate, date, year: dayObj.year() });
-  } else {
-    await EventStatic.create(objCreate);
-  }
+  isDynamic
+    ? await EventDynamic.create(objCreate)
+    : await EventStatic.create(objCreate);
 
   return { ...event.dataValues, date: dayObj.format("DD/MM") };
 };
@@ -100,16 +114,45 @@ const update = async ({ name, type, date }, id) => {
 
   await Event.update({ name, type }, { where: { id }, raw: true });
 
+  const objUpdate = { day: dayObj.date(), month: dayObj.month() + 1 };
+
   if (!isDynamic && date) {
-    await EventStatic.update(
-      { day: dayObj.date(), month: dayObj.month() + 1 },
+    await EventStatic.update(objUpdate, { where: { idEvent: id } });
+  } else if (isDynamic && date) {
+    await EventDynamic.update(
+      { ...objUpdate, date, year: dayObj.year() },
       { where: { idEvent: id } }
     );
-  } else if (isDynamic && date) {
-    await EventDynamic.update({ date }, { where: { idEvent: id } });
   }
 
   const response = await getById(id);
+  return response;
+};
+
+const updateType = async ({ isDynamic, year: yearUse }, id) => {
+  const event = await getExistOrThrow(id);
+  const year = yearUse || dayjs().year();
+
+  const dataTableType = event.isDynamic
+    ? event.eventDynamic
+    : event.eventStatic;
+
+  const data = { year, ...dataTableType };
+
+  await Event.update({ isDynamic }, { where: { id } });
+  const where = { idEvent: id };
+
+  console.log(data);
+
+  if (isDynamic) {
+    event.eventStatic.idEvent && (await EventStatic.destroy({ where }));
+    await EventDynamic.findOrCreate({ defaults: data, where });
+  } else {
+    event.eventDynamic.idEvent && (await EventDynamic.destroy({ where }));
+    await EventStatic.findOrCreate({ defaults: data, where });
+  }
+
+  const response = await getExistOrThrow(id);
   return response;
 };
 
@@ -121,6 +164,7 @@ const destroy = (id) => {
 module.exports = {
   getExistOrThrow,
   getCustomDate,
+  updateType,
   getById,
   getAll,
   create,

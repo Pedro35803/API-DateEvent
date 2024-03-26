@@ -13,9 +13,10 @@ router
 router
   .route("/eventos/:id")
   .get(EventController.getByID)
-  .put(isAuthenticated, EventController.update)
   .patch(isAuthenticated, EventController.update)
   .delete(isAuthenticated, EventController.destroy);
+
+router.patch("/eventos/type/:id", isAuthenticated, EventController.updateType);
 
 router
   .route("/admin")

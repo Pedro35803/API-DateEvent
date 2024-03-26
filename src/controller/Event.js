@@ -22,7 +22,13 @@ module.exports = {
   async update(req, res, next) {
     const { id } = req.params;
     const response = await event.update(req.body, id);
-    res.status(id).json(response);
+    res.status(203).json(response);
+  },
+  
+  async updateType(req, res, next) {
+    const { id } = req.params;
+    const response = await event.updateType(req.body, id);
+    res.status(203).json(response);
   },
 
   async destroy(req, res, next) {
