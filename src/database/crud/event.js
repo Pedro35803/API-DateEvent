@@ -63,25 +63,32 @@ const getCustomDate = async (whereDynamic, whereStatic = whereDynamic) => {
     raw: true,
   });
 
-  return response.map((obj) => {
-    const table = obj.isDynamic ? obj.eventDynamic : obj.eventStatic;
-    const date = dayjs(`${table.month}-${table.day}`).format("DD/MM");
-    return { ...obj, ...objClear, date };
-  });
+  return response
+    .map((obj) => {
+      const table = obj.isDynamic ? obj.eventDynamic : obj.eventStatic;
+      if (table.idEvent) {
+        const date = dayjs(`${table.month}-${table.day}`).format("DD/MM");
+        return { ...obj, ...objClear, date };
+      }
+      return undefined;
+    })
+    .filter((obj) => obj !== undefined);
 };
 
 const create = async ({ name, type, date, isDynamic }) => {
   const event = await Event.create({ name, type, isDynamic });
   const dayObj = dayjs(date, "YYYY-MM-DD");
 
+  const objCreate = {
+    day: dayObj.date(),
+    month: dayObj.month() + 1,
+    idEvent: event.id,
+  };
+
   if (isDynamic) {
-    await EventDynamic.create({ date, idEvent: event.id });
+    await EventDynamic.create({ ...objCreate, date, year: dayObj.year() });
   } else {
-    await EventStatic.create({
-      day: dayObj.date(),
-      month: dayObj.month() + 1,
-      idEvent: event.id,
-    });
+    await EventStatic.create(objCreate);
   }
 
   return { ...event.dataValues, date: dayObj.format("DD/MM") };
