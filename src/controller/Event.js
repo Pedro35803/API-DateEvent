@@ -19,6 +19,11 @@ module.exports = {
     res.status(201).json(response);
   },
 
+  async createMany(req, res, next) {
+    const response = await event.createMany(req.body);
+    res.status(201).json(response);
+  },
+
   async update(req, res, next) {
     const { id } = req.params;
     const response = await event.update(req.body, id);

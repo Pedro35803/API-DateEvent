@@ -17,6 +17,7 @@ router
   .delete(isAuthenticated, EventController.destroy);
 
 router.patch("/eventos/type/:id", isAuthenticated, EventController.updateType);
+router.post("/eventos/create_many", isAuthenticated, EventController.createMany);
 
 router
   .route("/admin")

@@ -108,6 +108,24 @@ const create = async ({ name, type, date, isDynamic }) => {
   return { ...event.dataValues, date: dayObj.format("DD/MM") };
 };
 
+const createMany = async (listEvents) => {
+  const listEvent = await Event.bulkCreate(listEvents);
+
+  listEvent.forEach(async (record) => {
+    const event = record.dataValues;
+
+    const { date } = listEvents.find((obj) => obj.name === event.name);
+    const { date: dayFunc, month: monthFunc, year: yearFunc } = dayjs(date);
+    const data = { day: dayFunc(), month: monthFunc(), year: yearFunc() };
+
+    event.isDynamic
+      ? await EventStatic.create({ ...data, date, idEvent: event.id })
+      : await EventDynamic.create({ ...data, idEvent: event.id });
+  });
+
+  return listEvent;
+};
+
 const update = async ({ name, type, date }, id) => {
   const { isDynamic } = await getExistOrThrow(id);
   const dayObj = dayjs(date);
@@ -170,4 +188,5 @@ module.exports = {
   create,
   update,
   destroy,
+  createMany,
 };
