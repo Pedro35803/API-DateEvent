@@ -10,6 +10,7 @@ const Event = sequelize.define("event", {
   name: {
     type: DataTypes.STRING(255),
     allowNull: false,
+    unique: true,
   },
   type: {
     type: DataTypes.ENUM(["Evento Comum", "Feriado"]),

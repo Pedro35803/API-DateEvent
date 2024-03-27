@@ -85,13 +85,14 @@ const getCustomDate = async (whereDynamic, whereStatic = whereDynamic) => {
 };
 
 const create = async ({ name, type, date, isDynamic }) => {
-  const event = await Event.create({ name, type, isDynamic });
   const format = "YYYY-MM-DD";
   const dayObj = dayjs(date, format, true);
 
   if (!dayObj.isValid()) {
     throw new Error(`Envie uma data em um formato valido: ${format}`);
   }
+
+  const event = await Event.create({ name, type, isDynamic });
 
   const objCreate = {
     day: dayObj.date(),
@@ -116,7 +117,7 @@ const createMany = async (listEvents) => {
 
     const { date } = listEvents.find((obj) => obj.name === event.name);
     const { date: dayFunc, month: monthFunc, year: yearFunc } = dayjs(date);
-    const data = { day: dayFunc(), month: monthFunc(), year: yearFunc() };
+    const data = { day: dayFunc(), month: monthFunc() + 1, year: yearFunc() };
 
     event.isDynamic
       ? await EventStatic.create({ ...data, date, idEvent: event.id })
@@ -124,6 +125,34 @@ const createMany = async (listEvents) => {
   });
 
   return listEvent;
+};
+
+const createDynamic = async ({ date, idEvent }) => {
+  const format = "YYYY-MM-DD";
+  const dayObj = dayjs(date, format, true);
+
+  if (!dayObj.isValid()) {
+    throw new Error(`Envie uma data em um formato valido: ${format}`);
+  }
+
+  const data = {
+    day: dayObj.date(),
+    month: dayObj.month() + 1,
+    year: dayObj.year(),
+  };
+
+  const response = await EventDynamic.findOrCreate({
+    where: { idEvent, year: data.year },
+    defaults: { ...data, date, idEvent },
+  });
+  return response;
+};
+
+const createManyDynamic = async (listRecord) => {
+  const response = Promise.all(
+    listRecord.map(async (record) => await createDynamic(record))
+  );
+  return response;
 };
 
 const update = async ({ name, type, date }, id) => {
@@ -189,4 +218,6 @@ module.exports = {
   update,
   destroy,
   createMany,
+  createDynamic,
+  createManyDynamic,
 };

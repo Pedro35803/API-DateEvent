@@ -24,6 +24,16 @@ module.exports = {
     res.status(201).json(response);
   },
 
+  async createDynamic(req, res, next) {
+    const response = await event.createDynamic(req.body);
+    res.status(201).json(response)
+  },
+
+  async createManyDynamic(req, res, next) {
+    const response = await event.createManyDynamic(req.body);
+    res.status(201).json(response)
+  },
+
   async update(req, res, next) {
     const { id } = req.params;
     const response = await event.update(req.body, id);

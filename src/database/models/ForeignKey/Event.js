@@ -1,7 +1,6 @@
 const Event = require("../Event");
 const EventStatic = require("../EventStatic");
 const EventDynamic = require("../EventDynamic");
-const dayjs = require("dayjs");
 
 Event.hasOne(EventDynamic, {
   foreignKey: "idEvent",

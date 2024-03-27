@@ -6,18 +6,25 @@ const EventController = require("../controller/Event");
 const AdminController = require("../controller/Admin");
 
 router
-  .route("/eventos")
+  .route("/event")
   .get(isAuthenticated, EventController.getAll)
   .post(isAuthenticated, EventController.create);
 
 router
-  .route("/eventos/:id")
+  .route("/event/:id")
   .get(EventController.getByID)
   .patch(isAuthenticated, EventController.update)
   .delete(isAuthenticated, EventController.destroy);
 
-router.patch("/eventos/type/:id", isAuthenticated, EventController.updateType);
-router.post("/eventos/create_many", isAuthenticated, EventController.createMany);
+router.patch("/event/type/:id", isAuthenticated, EventController.updateType);
+router.post("/event/create_many", isAuthenticated, EventController.createMany);
+
+router.post("/event/dynamic", isAuthenticated, EventController.createDynamic);
+router.post(
+  "/event/dynamic/create_many",
+  isAuthenticated,
+  EventController.createManyDynamic
+);
 
 router
   .route("/admin")
