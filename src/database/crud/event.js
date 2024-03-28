@@ -110,21 +110,26 @@ const create = async ({ name, type, date, isDynamic }) => {
 };
 
 const createMany = async (listEvents) => {
-  const listEvent = await Event.bulkCreate(listEvents);
+  const listRecord = await Event.bulkCreate(listEvents);
 
-  listEvent.forEach(async (record) => {
+  listRecord.forEach(async (record) => {
     const event = record.dataValues;
 
     const { date } = listEvents.find((obj) => obj.name === event.name);
-    const { date: dayFunc, month: monthFunc, year: yearFunc } = dayjs(date);
-    const data = { day: dayFunc(), month: monthFunc() + 1, year: yearFunc() };
+    const dayObj = dayjs(date);
+    
+    const data = {
+      day: dayObj.date(),
+      month: dayObj.month() + 1,
+      year: dayObj.year(),
+    };
 
     event.isDynamic
       ? await EventStatic.create({ ...data, date, idEvent: event.id })
       : await EventDynamic.create({ ...data, idEvent: event.id });
   });
 
-  return listEvent;
+  return listRecord;
 };
 
 const createDynamic = async ({ date, idEvent }) => {

@@ -28,14 +28,21 @@ module.exports = {
       .catch(next);
   },
 
-  async getEventosHoje(req, res, next) {
-    const dayOfYear = getTodayInDayOfYear();
+  async getEventsToday(req, res, next) {
+    const dayObj = dayjs();
 
-    await Events.findAll({
-      where: { dayOfYear },
-    })
-      .then((event) => res.json(event))
-      .catch(next);
+    const whereCommon = {
+      day: dayObj.date(),
+      month: dayObj.month() + 1,
+    };
+
+    const whereComplete = {
+      ...whereCommon,
+      year: dayObj.year(),
+    };
+
+    const response = await events.getCustomDate(whereComplete, whereCommon);
+    res.json(response);
   },
 
   async getRandom(req, res, next) {
@@ -74,8 +81,6 @@ module.exports = {
         month: dayObj.month() + 1,
         day: dayObj.date(),
       };
-
-      console.log(where.day);
 
       const response = await events.getCustomDate({ ...where, year }, where);
       return res.json(response);
