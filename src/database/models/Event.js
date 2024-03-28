@@ -13,7 +13,7 @@ const Event = sequelize.define("event", {
     unique: true,
   },
   type: {
-    type: DataTypes.ENUM(["Evento Comum", "Feriado"]),
+    type: DataTypes.ENUM(["Evento Comum", "Feriado", "Facultativo"]),
     defaultValue: "Evento Comum",
   },
   isDynamic: {

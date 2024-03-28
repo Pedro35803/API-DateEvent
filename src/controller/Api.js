@@ -3,13 +3,7 @@ const dayjs = require("dayjs");
 
 dayjs.extend(customParseFormat);
 
-const countEvents = require("../services/countEvents");
 const events = require("../database/crud/event");
-
-const {
-  getTodayInDayOfYear,
-  convertDayAndMothInDayOfYear,
-} = require("../services/date");
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -18,14 +12,11 @@ function getRandomInt(min, max) {
 }
 
 module.exports = {
-  async getFeriados(req, res, next) {
-    await Events.findAll({
-      where: {
-        tipo: ["Feriado", "Facultativo"],
-      },
-    })
-      .then((response) => res.json(response))
-      .catch(next);
+  async getHoliday(req, res, next) {
+    const { ano: yearUse } = req.query
+    const year = yearUse || dayjs().year()
+    const response = await events.getHoliday(year);
+    res.json(response);
   },
 
   async getEventsToday(req, res, next) {
@@ -46,17 +37,13 @@ module.exports = {
   },
 
   async getRandom(req, res, next) {
-    const count = await countEvents();
-
+    const count = await events.getCountEvents();
     if (count === 0) throw new Error("DataBase is empty");
 
     const id = getRandomInt(1, count);
+    const response = await events.getById(id);
 
-    await Events.findOne({
-      where: { id },
-    })
-      .then((event) => res.json(event))
-      .catch(next);
+    res.json(response);
   },
 
   async getEventsHandle(req, res, next) {

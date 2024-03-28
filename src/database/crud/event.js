@@ -84,6 +84,29 @@ const getCustomDate = async (whereDynamic, whereStatic = whereDynamic) => {
     .filter((obj) => obj !== undefined);
 };
 
+const getHoliday = async (year) => {
+  const response = await Event.findAll({
+    where: {
+      type: ["Feriado", "Facultativo"],
+    },
+    include: [{ model: EventDynamic, where: { year } }, { model: EventStatic }],
+    nest: true,
+    raw: true,
+  });
+
+  return response.map((record) => {
+    const table = record.isDynamic ? record.eventDynamic : record.eventStatic;
+    const dateString = `${table.month}-${table.day}`;
+    const date = dayjs(dateString).format("DD/MM");
+    return { ...record, ...objClear, date };
+  });
+};
+
+const getCountEvents = async () => {
+  const response = await Event.findAndCountAll();
+  return response.count;
+};
+
 const create = async ({ name, type, date, isDynamic }) => {
   const format = "YYYY-MM-DD";
   const dayObj = dayjs(date, format, true);
@@ -117,16 +140,18 @@ const createMany = async (listEvents) => {
 
     const { date } = listEvents.find((obj) => obj.name === event.name);
     const dayObj = dayjs(date);
-    
+
     const data = {
       day: dayObj.date(),
       month: dayObj.month() + 1,
       year: dayObj.year(),
+      idEvent: event.id,
+      date,
     };
 
     event.isDynamic
-      ? await EventStatic.create({ ...data, date, idEvent: event.id })
-      : await EventDynamic.create({ ...data, idEvent: event.id });
+      ? await EventDynamic.create(data)
+      : await EventStatic.create(data);
   });
 
   return listRecord;
@@ -194,8 +219,6 @@ const updateType = async ({ isDynamic, year: yearUse }, id) => {
   await Event.update({ isDynamic }, { where: { id } });
   const where = { idEvent: id };
 
-  console.log(data);
-
   if (isDynamic) {
     event.eventStatic.idEvent && (await EventStatic.destroy({ where }));
     await EventDynamic.findOrCreate({ defaults: data, where });
@@ -215,7 +238,9 @@ const destroy = (id) => {
 
 module.exports = {
   getExistOrThrow,
+  getCountEvents,
   getCustomDate,
+  getHoliday,
   updateType,
   getById,
   getAll,
