@@ -1,6 +1,6 @@
 const { hash } = require("bcrypt");
 
-const Admin = require("../models/Admin");
+const Admin = require("../../models/Admin");
 
 const attributes = { exclude: ["password"] };
 

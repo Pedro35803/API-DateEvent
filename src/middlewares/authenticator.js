@@ -1,6 +1,6 @@
 const basicAuth = require("basic-auth");
 
-const { getByEmail: findAdmin } = require("../database/crud/admin.js");
+const { getByEmail: findAdmin } = require("../database/crud/admin");
 const { compare } = require("bcrypt");
 
 const authorization = async (req, res, next) => {
